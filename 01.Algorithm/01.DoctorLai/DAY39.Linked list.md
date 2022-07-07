@@ -2,7 +2,7 @@
 ## 链表定义
 链表是一个类似于数组的线性结构。但是不同于数组的是，储存在内存中的元素没有特定的位置或者索引。每个元素都是单独的对象（node），包含：数据和pointer指针，pointer指着下个对象
 
-![alt ](../CSS与img引用/Algorithm/linked%20list.png)
+![linkedList.png](https://media.haochen.me/linkedList.png)
 
 一个链表的入口点被称为head，head指着链表的第一个元素。
 最后一个元素指着null

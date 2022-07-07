@@ -14,7 +14,7 @@
 “大O表示法”算法的渐进时间复杂度
 
 T(n) = O(f(n))
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/../../CSS与img引用/Algorithm/时间复杂度.png)
+![TimeComplexity.png](https://media.haochen.me/TimeComplexity.png)
 
 
 ```js

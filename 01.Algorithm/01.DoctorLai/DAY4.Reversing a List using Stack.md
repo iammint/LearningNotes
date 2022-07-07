@@ -18,7 +18,7 @@ function rev(nums) {
 ```
 
 ## leetcode 682
-![alt ](../../CSS与img引用/../JavaScript/CSS与img引用/Algorithm/leetcode682.png)
+![leetcode682.png](https://media.haochen.me/leetcode682.png)
 ```js
 var calPoints = function(ops) {
     //是要将经过规则转换之后的值加入到新的数组中

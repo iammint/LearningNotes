@@ -1,6 +1,6 @@
 # DAY23 Min Number of Brackets Needed to Make a Valid Parenthese String
 使括号有效的最少添加
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/leetcode921.png)
+![leetcode921.png](https://media.haochen.me/leetcode921.png)
 ```js
 var minAddToMakeValid = function(s) {
     let ans = 0, bal = 0

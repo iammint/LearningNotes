@@ -23,7 +23,7 @@
 
 
 ## Leetcode 986
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/leetcode986.png)
+![leetcode986.png](https://media.haochen.me/leetcode986.png)
 输入：
 
 firstList = [[0,2],[5,10],[13,23],[24,25]], secondList = [[1,5],[8,12],[15,24],[25,26]]

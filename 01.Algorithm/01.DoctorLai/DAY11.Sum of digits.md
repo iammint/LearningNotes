@@ -30,7 +30,7 @@ console.log(sumBase(456))
 ```
 
 # LeetCode1837
-![alt ](../CSS与img引用/Algorithm/leetcode1837.png)
+![leetcode1837.png](https://media.haochen.me/leetcode1837.png)
 ```js
     function sumBase(n, k) {
         //加一步利用toString(k)转换为k进制

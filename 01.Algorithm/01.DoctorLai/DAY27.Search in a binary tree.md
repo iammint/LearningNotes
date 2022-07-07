@@ -23,7 +23,7 @@ var binaryTreePaths = function(root) {
 };
 ```
 ### leetcode 98
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/leetcode98.png)
+![leetcode98.png](https://media.haochen.me/leetcode98.png)
 ```js
 const helper = (root, lower, upper) => {
     if (root === null) {

@@ -8,7 +8,7 @@
 该方法是以横向的维度对DOM树进行遍历，从该节点的第一个子节点开始，遍历其所有的兄弟节点，再遍历第一个节点的子节点，完成该遍历后，暂时不深入，开始遍历其兄弟节点的子节点。
 
 例如:[2,0,3,1,3,4] 以 1 为起点，0 为目标，如果能跳跃到目标位置。可以左右跳，当前元素代表你在该位置可以跳跃的最大长度
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/BFS%E8%B7%B3%E8%B7%83game.png)
+![BFSgame.png](https://media.haochen.me/BFSgame.png)
 
 ```js
 function BFS(nums, start, target) {
@@ -33,7 +33,7 @@ function BFS(nums, start, target) {
 ```
 
 ## Leetcode55
-![alt ](../CSS与img引用/Algorithm/leetcode55.png)
+![leetcode55.png](https://media.haochen.me/leetcode55.png)
 这题我们可以维护一个最大能到达的 index 值，遍历数组并与当前下标进行比较然后更新最大 index 值。
 
 核心思想：如果能到达一个值，则这个值左侧的值也都能到达。

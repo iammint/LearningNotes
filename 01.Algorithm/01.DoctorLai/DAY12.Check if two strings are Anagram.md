@@ -50,7 +50,7 @@
 
     console.log(isAnagram("tea", "eat")) 
 ```
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/wenhao.png)
+![wenhao.png](https://media.haochen.me/wenhao.png)
 ```js
 function checkAnagram(str1, str2) {
   str1 = str1.split("").sort().join("")

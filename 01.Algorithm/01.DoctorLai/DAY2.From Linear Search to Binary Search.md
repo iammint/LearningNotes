@@ -46,7 +46,7 @@ function search(value, arr) {
 
 ### Binary search implementation:
 ## LeetCode
-![alt 704](../CSS与img引用/Algorithm/DAY2Binary%20Search.png)
+![DAY2BinarySearch.png](https://media.haochen.me/DAY2BinarySearch.png)
 ```js
 function Binary(target, nums) {
     let lower = 0;

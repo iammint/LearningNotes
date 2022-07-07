@@ -18,7 +18,7 @@ function valid(str) {
 }
 console.log(valid("()()()((("))
 ```
-![alt ](../CSS%E4%B8%8Eimg%E5%BC%95%E7%94%A8/Algorithm/leetcode20.png)
+![leetcode20.png](https://media.haochen.me/leetcode20.png)
 ```js
 var isValid = function(s) {
     const stack = []

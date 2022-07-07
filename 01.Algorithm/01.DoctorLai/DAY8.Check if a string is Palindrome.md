@@ -1,6 +1,6 @@
 # DAY8 Check if a string is Palindrome
 
-![alt ](../CSS与img引用/Algorithm/DAY8.png)
+![DAY8.png](https://media.haochen.me/DAY8.png)
 ## 方法一：全反过来判断
 ```js
 let isPalindrome = function(s) {

@@ -30,7 +30,7 @@
   
 ## 面试题
 #### 1个细胞每1个小时分裂一次，生命周期是3小时，求n小时后容器内有多少个细胞？
-![alt 细胞分裂](../CSS与img引用/Algorithm/DAY1细胞分裂.png)
+![DAY1.png](https://media.haochen.me/DAY1.png)
 ```js
 function cells(n) {
     function cell3(n) {
