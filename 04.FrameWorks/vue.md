@@ -69,7 +69,7 @@
 > Create a Vue application by creating a Vue instance. Every Vue application starts by creating a new application instance with the `createApp` function:
 
 ```HTML
-import { createApp} from 'vue'
+import { createApp } from 'vue'
 const app = createApp({
     <!-- root component options -->
 })
@@ -243,7 +243,7 @@ export default {
   mounted() {
     const newObject = {}
     this.someObject = newObject
-    console.log(newObject === this.someObject)
+    console.log(newObject === this.someObject) //false
   }
 }
 ```
@@ -325,4 +325,167 @@ export default {
 <p>Has published books: </p>
 <span>{{ publishedBooksMessage }}</span>
 ```
+
+### 1. Computed Caching VS. Methods
+> Instead of a computed property, we can define the same function as a method. However, the difference is that **computed properties are cached based on their reactive dependencies.** 
+
+This means as long as `author.books` has not changed, multiple access to `publishedBooksMessage` will immediately return the previously computed value.
+
+
+### 2. Writable Computed
+> Computed properties are by default getter-only. You can create one that is writable by providing both a `getter` and a `setter`.
+
+```js
+export default {
+  data() {
+    return {
+      firstName: 'John',
+      lastName: 'Doe'
+    }
+  },
+  computed: {
+    fullName: {
+      // getter
+      get() {
+        return this.firstName + ' ' + this.lastName
+      },
+      // setter
+      set(newValue) {
+        // Note: we are using destructuring assignment syntax here.
+        [this.firstName, this.lastName] = newValue.split(' ')
+      }
+    }
+  }
+}
+```
+
+### 3. 侦听器
+> 虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。这就是为什么 Vue 通过 `watch `选项提供了一个更通用的方法来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+
+```html
+<div id="watch-example">
+  <p>
+    Ask a yes/no question:
+    <input v-model="question" />
+  </p>
+  <p>{{ answer }}</p>
+</div>
+```
+
+```html
+<!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复
+提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。  -->
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script>
+  const watchExampleVM = Vue.createApp({
+    data() {
+      return {
+        question: '',
+        answer: 'Questions usually contain a question mark. ;-)'
+      }
+    },
+    watch: {
+      // 每当 question 发生变化时，该函数将会执行
+      question(newQuestion, oldQuestion) {
+        if (newQuestion.indexOf('?') > -1) {
+          this.getAnswer()
+        }
+      }
+    },
+    methods: {
+      getAnswer() {
+        this.answer = 'Thinking...'
+        axios
+          .get('https://yesno.wtf/api')
+          .then(response => {
+            this.answer = response.data.answer
+          })
+          .catch(error => {
+            this.answer = 'Error! Could not reach the API. ' + error
+          })
+      }
+    }
+  }).mount('#watch-example')
+</script>
+```
+
+
+## 2.5 Class and Style Bindings
+> We can use `v-bind` to assign a class or style to an element. However, vue provides a more convenient syntax for this: `class` and `style`. In addition to strings, the expressions can also evaluate to objects or arrays.
+
+### 1. Binding HTML Classes
+#### 1.1 Binding to objects
+We can pass an object to `:class`(`v-bind:class`) to dynamically toggle classes:
+```html
+<div :class="{ active: isActive }"></div>
+```
+Because the truthiness of a data property means the presence, the above syntax means the presence of `active` class will be determined by the truthiness of the data property `isActive`.
+
+ ```html
+ <div
+  class="static"
+  :class="{ active: isActive, 'text-danger': hasError }"
+></div>
+```
+
+```js
+data() {
+  return {
+    isActive: true,
+    hasError: false
+  }
+}
+```
+
+It will render:
+```HTML
+<div class="static active"></div>
+```
+
+We can also bind a computed property that returns an object:
+```js
+data() {
+  return {
+    isActive: true,
+    error: null
+  }
+},
+computed: {
+  classObject() {
+    return {
+      active: this.isActive && !this.error,
+      'text-danger': this.error && this.error.type === 'fatal'
+    }
+  }
+}
+```
+
+```html
+<div :class="classObject"></div>
+```
+
+#### 2. Binding to Arrays
+> We can bind `:class` to an array to apply a list of classes.
+
+```js
+data() {
+  return {
+    activeClass: 'active',
+    errorClass: 'text-danger'
+  }
+}
+```
+
+```html
+<div :class="[isActive ? activeClass : '', errorClass]"></div>
+```
+
+However, this can be a bit verbose if you have multiple conditional classes. That's why it's also possible to use the object syntax inside array syntax:
+
+```html
+<div :class="[{ active: isActive }, errorClass]"></div>
+```
+
+### 3. With Components
+> When you use the `class` attribute on a component with a single root element, those classes will be added to the component's root element, and merged with any existing class already on it.
 
