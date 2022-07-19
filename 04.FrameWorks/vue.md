@@ -359,6 +359,14 @@ export default {
 }
 ```
 
+```html
+<button @click="this.fullName='Min Tu'"></button>
+<div>
+  firstName: {{ firstName }}
+  lastName: {{ lastName }}
+</div>
+```
+
 ### 3. 侦听器
 > 虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。这就是为什么 Vue 通过 `watch `选项提供了一个更通用的方法来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
 
@@ -486,6 +494,232 @@ However, this can be a bit verbose if you have multiple conditional classes. Tha
 <div :class="[{ active: isActive }, errorClass]"></div>
 ```
 
-### 3. With Components
+#### 3. With Components
 > When you use the `class` attribute on a component with a single root element, those classes will be added to the component's root element, and merged with any existing class already on it.
+
+<!-- child component template -->
+```html
+<p class="foo bar"><span></span></p>
+```
+
+```html
+  <BlogPostVue class="baz boo"/>
+```
+
+Now rendered HTML will be 
+```html
+<p class="foo bar baz boo"><span class="baz boo"></span></p>
+```
+
+You can also use `$attrs` to define which element will receive this class:
+```html
+< p :class="$attrs.class">Hi~</p>
+<span>This is a child component</span>
+```
+
+
+### 2. Binding Inline Styles
+#### 1. Binding to Objects/Arrays
+```js
+data() {
+  return {
+    activeColor: 'yellow',
+    fontSize: '30px'
+  }
+}
+```
+:style supports both camelCase and kebab-cased.
+```html
+<div :style="{ color: activeColor, fontSize: fontSize}"</div>
+<div :style="{ color: activeColor, font-size: fontSize}"</div>
+```
+
+It's often a good idea to bind to a style object directly.
+
+```js
+data() {
+  return {
+    styleObject: {
+      color: 'red',
+      fontSize: '30px'
+    },
+    styleArr: [ color: 'red', fontSize: '30px' ]
+  }
+}
+```
+
+```html
+<div :style="styleObject"></div>
+<div :style="styleArr"></div>
+```
+
+
+#### 2. Auto-prefixing
+When you use a CSS property that requires a vendor prefix in `:style`, Vue will automatically add the appropriate prefix. For example, if you use `:style="{ transition: 'all' }`, Vue will add `-webkit-transition: all`.
+
+#### 3. Multiple Values
+You can provide an array of multiple (prefixed) values to a style property:
+```html
+<div :style="{ display: ["['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
+//注意style={[]}
+```
+
+This will only render the last value in the array which the browser supports. In this example, it will render `display: flex` for browsers that support the unprefixed version of flexbox.
+
+## 2.6 Conditional Rendering
+### 1. `v-if`
+> The directive `v-if` is used to coonditionally render a block. The block will only be rendered if the directive's expression returns a truthy value.
+
+```html
+<h1 v-if="awesome">Vue is awesome!</h1>
+```
+
+### 2. `v-else`
+> You can use the `v-else` directive to indicate an "else block" for `v-if`:
+
+```html
+<button @click="awesome = !awesome">Toggle</button>
+
+<h1 v-if="awesome">Vue is awesome!</h1>
+<h1 v-else>Oh no 😢</h1>
+```
+
+A `v-else` element must immediately follow a `v-if `or a `v-else-if` element - otherwise it will not be recognized.
+
+### 3. `v-else-if`
+```html
+  <div v-if="count === 221">I'm v-if</div>
+  <div v-else-if="count === 222">I'm v-else-if</div>
+  <div v-else>I'm v-else</div>
+```
+
+### 4. `v-if`/`v-else`/`v-else-if` on `<template>`
+```html
+<template v-if="ok">
+  <h1>Title</h1>
+  <p>Paragraph 1</p>
+  <p>Paragraph 2</p>
+</template>
+```
+
+### 5. `v-show`
+> Another option for conditionally displaying an element is the `v-show` directive.
+
+The difference is that `v-show` only toggles the ` display` CSS property of the element.
+
+### 6. `v-if` vs.`v-show`
+
+`v-if` 是“真正”的条件渲染，因为它会确保在切换过程中，条件块内的事件监听器和子组件适当地被销毁和重建。
+
+`v-if` 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+相比之下，`v-show` 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+
+一般来说，`v-if` 有更高的切换开销，而 `v-show` 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
+
+## 2.7 List Rendering
+### 1. `v-for`
+We can use the `v-for` directive to render a list of items based on an array. 
+
+Inside the `v-for` scope, template expressions have access to all parent scope properties. In addition, `v-for` also supports an optional second alias for the index of the current item.
+
+Actually we can use destructuring on the `v-for` item alias.
+
+### 2. `v-for` with an Object
+> You can also use `v-for` to iterate through the properties of an object. The iteration order will be based on the result of calling `Object.keys()` on the object
+
+### 3. `v-for` with a Range
+```html
+<span v-for="n in 10"> {{ n }} </span>
+```
+
+### 4. `v-for` with `v-if`
+**❌Not recommended**
+When they exist on the same node, `v-if` has a higher priority than `v-for`. **That means the `v-if` condition will not have access to variables from the scope of `v-for`.**
+
+```html
+<!-- This will throw an error because property "todo" is not defined on instance. -->
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo.name }}
+</li>
+```
+
+But this can be fixed by moving `v-for` outside.
+```html
+  <ul v-for="todo in todos">
+  <!-- Using `v-show` is better, cuz `v-if` still shows empty list -->
+  <li v-show="!todo.done">
+  {{ todo.text }}
+```
+
+### 5. Mainting State with `key`
+Using `key` to maintain state when the order of the data items has changed. Vue will patch each element in-place and make sure it reflects what should be rendered at that particular index.
+
+```html
+  <ul v-for="todo in todos" :key="todo.text">
+  <li v-show="!todo.done">
+  {{ todo.text }}
+  </li>
+  </ul>
+```
+The `key` binding expects primitive values(strings and numbers). Do not use objects as `v-for` keys.
+
+**It's recommended to provide a `key` attribute with `v-for` whenever possible.**
+
+### 6. `v-for` with a component
+You can directly use v-for on a component, like any normal element (don't forget to provide a key).
+
+However, this won't automatically pass any data to the component, because components have isolated scopes of their own. In order to pass the iterated data into the component, we should also use props:
+
+```html
+<MyComponent
+  v-for="(item, index) in items"
+  :item="item"
+  :index="index"
+  :key="item.id"
+/>
+```
+不自动将 `item` 注入到组件里的原因是，这会使得组件与 `v-for` 的运作紧密耦合。明确组件数据的来源能够使组件在其他场合重复使用。
+
+
+### 7. Array Change Detection
+```js
+data() {
+  return {
+    numbers: [1, 2, 3, 4, 5]
+  }
+},
+computed: {
+  evenNumbers() {
+    return this.numbers.filter(n => n % 2 === 0)
+  }
+}
+```
+
+```html
+<li v-for="n in evenNumbers">{{ n }}</li>
+```
+
+In situations where computed properties are not feasible (e.g. when the data is being fetched from a server, or inside nested `v-for` loops), you can use a method.
+
+Be careful with `reverse()` and `sort()` in a computed property! These two methods will mutate the original array, which should be avioded in computed getters. 
+
+```js
+- return numbers.reverse()
++ return [...numbers].reverse()
+```
+
+
+## 2.8 Listening to Events
+The handler value of `@click="handler"` can be one of the following:
+1. Inline handlers: similar to the native `onclick` attribute
+2. Method handlers: A property name or path that points to a method defined on the component.
+
+### 1. Inline handlers
+```html
+<button @click="count++">Add 1</button>
+```
+
+### 2. Method handlers
+The logic for many event handlers will be more complex though, and likely isn't feasible with inline handlers. That's why v-on can also accept the name or path of a component method you'd like to call.
 
