@@ -710,16 +710,26 @@ Be careful with `reverse()` and `sort()` in a computed property! These two metho
 ```
 
 
-## 2.8 Listening to Events
-The handler value of `@click="handler"` can be one of the following:
-1. Inline handlers: similar to the native `onclick` attribute
-2. Method handlers: A property name or path that points to a method defined on the component.
-
-### 1. Inline handlers
+## 2.8 Form Input Bindings
+### 1. Tetx
+插值在form中不起作用，需要使用`v-model`
 ```html
-<button @click="count++">Add 1</button>
+<input v-model="message" placeholder='edit me' />
+<p>Message is {{ message }}</p>
 ```
 
-### 2. Method handlers
-The logic for many event handlers will be more complex though, and likely isn't feasible with inline handlers. That's why v-on can also accept the name or path of a component method you'd like to call.
+```html
+<textarea v-model="message1" placeholder='edit me' />
+<p style="white-space: pre-line">{{ message1 }}</p>
+```
 
+```js
+data() {
+  return {
+    message: '',
+    message1: ''
+  }
+}
+```
+
+### 2. checkbox && radio
